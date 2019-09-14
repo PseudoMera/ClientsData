@@ -35,12 +35,15 @@ class Client {
 let root = document.getElementById("root");
 let client = new Client();
 
-document.getElementById("AddButton").addEventListener("click", () => {
-    agregarCliente();
-});
-
-
-
+if(window.location.href.endsWith("addClientPage.html")) {
+    document.getElementById("AddButton").addEventListener("click", () => {
+        agregarCliente();
+    });
+} else {
+    document.getElementById("addBtn").addEventListener("click", () => {
+        window.open("addClientPage.html");
+    });
+}
 function agregarCliente() {
     let name = document.getElementById("Nombre").value;
     let balance = document.getElementById("Balance").value;
@@ -78,6 +81,10 @@ function createTable() {
         let col5 = document.createElement('td');
         let deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
+        deleteButton.setAttribute("id", `${element.code}`);
+        deleteButton.addEventListener("click", () => {
+            client.deleteClient(element.code);
+        });
         col1.textContent = element.code;
         col2.textContent = element.name;
         col3.textContent = element.balance;
