@@ -12,7 +12,7 @@ class Client {
         const client = {
             code: this.clients.length > 0 ? this.clients[this.clients.length - 1].code + 1 : 1,
             name: updatedName,
-            balance: updatedBalance,
+            balance: parseFloat(updatedBalance).toFixed(2),
             registerDate: today
         }
 
@@ -26,6 +26,17 @@ class Client {
         location.reload();
     }
 
+
+    editClient(codepr, updatedName, updatedBalance) {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+        var yyyy = today.getFullYear();
+        today = mm + '/' + dd + '/' + yyyy;
+        this.clients = this.clients.map(x => x.code === Number(codepr) ? {code: x.code, name: updatedName, balance: parseFloat(updatedBalance).toFixed(2), registerDate: today} : x);
+        this._commit(this.clients);
+    }
+
     _commit(clients) {
         localStorage.setItem('clients', JSON.stringify(clients));        
     }
@@ -36,24 +47,37 @@ let client = new Client();
 
 if(window.location.href.endsWith("addClientPage.html")) {
     document.getElementById("AddButton").addEventListener("click", () => {
-        agregarCliente();
+        addClient();
     });
-} else {
+} else if(window.location.href.endsWith("main.html")){
     document.getElementById("addBtn").addEventListener("click", () => {
         window.open("addClientPage.html", "_self");
+    });
+} else {
+    document.getElementById("EditButton").addEventListener("click", () => {
+        editClient();
     });
 }
 
 
-function agregarCliente() {
+function addClient() {
     let name = document.getElementById("Nombre").value;
     let balance = document.getElementById("Balance").value;
     client.addClient(name, balance);
     window.open("main.html", "_self");
 }
 
+function editClient() {
+    let name = document.getElementById("NombreEditar").value;
+    let balance = document.getElementById("BalanceEditar").value;
+    let code = document.getElementById("ClientCode").value;
+    client.editClient(code, name, balance);
+    window.open("main.html", "_self");
+}
+
 
 function createTable() {
+    //Table definition
     let table = document.createElement('table');
     let mainRow = document.createElement('tr')
     let colum1 = document.createElement('td');
@@ -74,23 +98,38 @@ function createTable() {
     table.appendChild(mainRow);
 
     client.clients.forEach(element => {
+        //Creates a new row and colum for each client
         let newRow = document.createElement('tr');
         let col1 = document.createElement('td');
         let col2 = document.createElement('td');
         let col3 = document.createElement('td');
         let col4 = document.createElement('td');
         let col5 = document.createElement('td');
+
+        //appends a delete button for each client that exists
         let deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.setAttribute("id", `${element.code}`);
         deleteButton.addEventListener("click", () => {
             client.deleteClient(element.code);
         });
+
+        //appends an edit button for each client that exits
+        let editButton =  document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.setAttribute("id", `${element.code}`);
+        editButton.addEventListener("click", () => {  
+            window.open("editClientPage.html", "_self");
+        });
+
+        //adds all client data to the table
         col1.textContent = element.code;
         col2.textContent = element.name;
         col3.textContent = element.balance;
         col4.textContent = element.registerDate;
         col5.appendChild(deleteButton);
+        col5.appendChild(editButton);
+
         newRow.appendChild(col1);
         newRow.appendChild(col2);
         newRow.appendChild(col3);
