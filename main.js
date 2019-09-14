@@ -23,13 +23,12 @@ class Client {
     deleteClient(code) {
         this.clients = this.clients.filter(x => x.code !== code);
         this._commit(this.clients);
+        location.reload();
     }
 
     _commit(clients) {
         localStorage.setItem('clients', JSON.stringify(clients));        
     }
-
-
 }
 
 let root = document.getElementById("root");
@@ -41,14 +40,16 @@ if(window.location.href.endsWith("addClientPage.html")) {
     });
 } else {
     document.getElementById("addBtn").addEventListener("click", () => {
-        window.open("addClientPage.html");
+        window.open("addClientPage.html", "_self");
     });
 }
+
+
 function agregarCliente() {
     let name = document.getElementById("Nombre").value;
     let balance = document.getElementById("Balance").value;
     client.addClient(name, balance);
-
+    window.open("main.html", "_self");
 }
 
 
