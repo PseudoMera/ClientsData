@@ -43,7 +43,14 @@ class Client {
 }
 
 let root = document.getElementById("root");
+let detail = document.getElementById("clientDetailBox");
+let ul = document.createElement("ul");
+let li1 = document.createElement("li");
+let li2 = document.createElement("li");
+let li3 = document.createElement("li");
+let li4 = document.createElement("li");
 let client = new Client();
+
 
 if(window.location.href.endsWith("addClientPage.html")) {
     document.getElementById("AddButton").addEventListener("click", () => {
@@ -79,12 +86,13 @@ function editClient() {
 function createTable() {
     //Table definition
     let table = document.createElement('table');
+    let head = document.createElement('thead');
     let mainRow = document.createElement('tr')
-    let colum1 = document.createElement('td');
-    let colum2 = document.createElement('td');
-    let colum3 = document.createElement('td');
-    let colum4 = document.createElement('td');
-    let colum5 = document.createElement('td');
+    let colum1 = document.createElement('th');
+    let colum2 = document.createElement('th');
+    let colum3 = document.createElement('th');
+    let colum4 = document.createElement('th');
+    let colum5 = document.createElement('th');
     colum1.textContent = "Codigo";
     colum2.textContent = "Nombre";
     colum3.textContent = "Balance";
@@ -95,7 +103,9 @@ function createTable() {
     mainRow.appendChild(colum3);
     mainRow.appendChild(colum4);
     mainRow.appendChild(colum5);
-    table.appendChild(mainRow);
+    head.appendChild(mainRow);
+    table.appendChild(head);
+    let body = document.createElement('tbody');
 
     client.clients.forEach(element => {
         //Creates a new row and colum for each client
@@ -105,7 +115,7 @@ function createTable() {
         let col3 = document.createElement('td');
         let col4 = document.createElement('td');
         let col5 = document.createElement('td');
-
+        
         //appends a delete button for each client that exists
         let deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
@@ -122,6 +132,29 @@ function createTable() {
             window.open("editClientPage.html", "_self");
         });
 
+        //appends a detail button for each client that exists
+        let detailButton = document.createElement('button');
+        detailButton.textContent = 'Detail';
+        detailButton.setAttribute("id", `${element.code}`);
+        detailButton.addEventListener("click", () => {           
+            li1.textContent = `Codigo: ${element.code}`;
+            li2.textContent = `Nombre: ${element.name}`;
+            li3.textContent = `Balance: ${element.balance}`;
+            li4.textContent = `Fecha Registro: ${element.registerDate}`;
+            ul.appendChild(li1);
+            ul.appendChild(li2);
+            ul.appendChild(li3);
+            ul.appendChild(li4);
+
+            
+            detail.appendChild(ul);
+            window.scrollTo({
+                top: 0,
+                left: 100,
+                behavior: 'smooth'
+              });
+        });
+
         //adds all client data to the table
         col1.textContent = element.code;
         col2.textContent = element.name;
@@ -129,14 +162,16 @@ function createTable() {
         col4.textContent = element.registerDate;
         col5.appendChild(deleteButton);
         col5.appendChild(editButton);
-
+        col5.appendChild(detailButton);
         newRow.appendChild(col1);
         newRow.appendChild(col2);
         newRow.appendChild(col3);
         newRow.appendChild(col4);
         newRow.appendChild(col5);
-        table.appendChild(newRow);
+        body.appendChild(newRow);
+        table.appendChild(body);
     });
     root.appendChild(table);
+
 }
 
