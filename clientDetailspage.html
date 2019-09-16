@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+        <title>Clients APP</title>
+        <link rel="stylesheet" href="main.css">
+    </head>
+
+    <body>
+        <div id="root">
+           <h1>Detalle del cliente</h1>
+           <p id="code">Codigo: </p>
+           <p id="name">Nombre: </p>
+           <p id="balance">Balance: </p>
+           <button type="submit" id="ReturnButton">Regresar</button>
+        </div>
+        <script src="main.js"></script>   
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                document.getElementById("code").append(`${client.currentClient.code}`);
+                document.getElementById("name").append(`${client.currentClient.name}`);
+                document.getElementById("balance").append(`${client.currentClient.balance}`);
+
+            });
+        </script>     
+    </body>
+</html>

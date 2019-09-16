@@ -16,9 +16,6 @@ html {
   padding: 0 1rem;
 }
 
-/* #clientDetailBox {
-  background-color: aliceblue;
-} */
 
 
 [type="text"], [type="number"],
@@ -38,6 +35,10 @@ button {
   border: 2px solid #007bff;
   margin: 0 .5rem;
   margin-bottom: 1rem;
+}
+
+#addBtn {
+  margin-left: 45rem;
 }
 
 [type="text"], [type="number"] {
@@ -75,6 +76,18 @@ li {
   font-size: 1.3em;
   list-style-type: lower-greek;
   border-bottom: 1px solid black;
+
 }
 
+nav {
+  display: flex;
+  flex-direction: row;
+  margin-left: 50rem;
+}
 
+.show {
+  transition: opacity 400ms;
+}
+.hide {
+  opacity: 0;
+}

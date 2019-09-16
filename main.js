@@ -1,6 +1,7 @@
 class Client {
     constructor() {     
-        this.clients = JSON.parse(localStorage.getItem('clients')) || [];      
+        this.clients = JSON.parse(localStorage.getItem('clients')) || [];
+        this.currentClient = JSON.parse(localStorage.getItem('currentClient')) || {};      
     }
 
     addClient(updatedName, updatedBalance) {
@@ -59,6 +60,10 @@ if(window.location.href.endsWith("addClientPage.html")) {
 } else if(window.location.href.endsWith("main.html")){
     document.getElementById("addBtn").addEventListener("click", () => {
         window.open("addClientPage.html", "_self");
+    });
+} else if(window.location.href.endsWith("clientDetailspage.html")) {
+    document.getElementById("ReturnButton").addEventListener("click", () => {
+        window.open("main.html", "_self");
     });
 } else {
     document.getElementById("EditButton").addEventListener("click", () => {
@@ -135,24 +140,27 @@ function createTable() {
         //appends a detail button for each client that exists
         let detailButton = document.createElement('button');
         detailButton.textContent = 'Detail';
-        detailButton.setAttribute("id", `${element.code}`);
-        detailButton.addEventListener("click", () => {           
-            li1.textContent = `Codigo: ${element.code}`;
-            li2.textContent = `Nombre: ${element.name}`;
-            li3.textContent = `Balance: ${element.balance}`;
-            li4.textContent = `Fecha Registro: ${element.registerDate}`;
-            ul.appendChild(li1);
-            ul.appendChild(li2);
-            ul.appendChild(li3);
-            ul.appendChild(li4);
-
-            
-            detail.appendChild(ul);
-            window.scrollTo({
-                top: 0,
-                left: 100,
-                behavior: 'smooth'
-              });
+        //detailButton.setAttribute("id", `${element.code}`);          
+        //detail.appendChild(ul);
+        detailButton.addEventListener("click", () => {       
+            window.open("clientDetailspage.html", "_self");
+            client.currentClient = element;
+            localStorage.setItem('currentClient', JSON.stringify(client.currentClient));        
+      
+            // li1.textContent = `Codigo: ${element.code}`;
+            // li2.textContent = `Nombre: ${element.name}`;
+            // li3.textContent = `Balance: ${element.balance}`;
+            // li4.textContent = `Fecha Registro: ${element.registerDate}`;
+            // ul.appendChild(li1);
+            // ul.appendChild(li2);
+            // ul.appendChild(li3);
+            // ul.appendChild(li4);            
+            // detail.appendChild(ul);
+            // window.scrollTo({
+            //     top: 0,
+            //     left: 100,
+            //     behavior: 'smooth'
+            //   });
         });
 
         //adds all client data to the table
